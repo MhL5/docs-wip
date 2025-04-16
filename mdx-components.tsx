@@ -8,37 +8,37 @@ import { codeToHtml } from "shiki";
 const components = {
   h1: (props: ComponentPropsWithoutRef<"h1">) => (
     <h1
-      className="mt-8 mb-7 scroll-m-20 font-mono text-4xl font-extrabold tracking-tight"
+      className="mt-6 mb-5 scroll-m-20 font-mono text-4xl font-extrabold tracking-tight"
       {...props}
     />
   ),
   h2: (props: ComponentPropsWithoutRef<"h2">) => (
     <h2
-      className="mt-8 mb-7 scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0"
+      className="mt-6 mb-5 scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0"
       {...props}
     />
   ),
   h3: (props: ComponentPropsWithoutRef<"h3">) => (
     <h3
-      className="mt-8 mb-7 scroll-m-20 text-2xl font-semibold tracking-tight"
+      className="mt-6 mb-5 scroll-m-20 text-2xl font-semibold tracking-tight"
       {...props}
     />
   ),
   h4: (props: ComponentPropsWithoutRef<"h4">) => (
     <h4
-      className="mt-8 mb-7 scroll-m-20 text-xl font-semibold tracking-tight"
+      className="mt-6 mb-5 scroll-m-20 text-xl font-semibold tracking-tight"
       {...props}
     />
   ),
   h5: (props: ComponentPropsWithoutRef<"h5">) => (
     <h5
-      className="mt-8 mb-7 scroll-m-20 text-lg font-semibold tracking-tight"
+      className="mt-6 mb-5 scroll-m-20 text-lg font-semibold tracking-tight"
       {...props}
     />
   ),
   h6: (props: ComponentPropsWithoutRef<"h6">) => (
     <h6
-      className="mt-8 mb-7 scroll-m-20 text-base font-semibold tracking-tight"
+      className="mt-6 mb-5 scroll-m-20 text-base font-semibold tracking-tight"
       {...props}
     />
   ),
@@ -102,7 +102,7 @@ const components = {
     return (
       <pre
         className={cn(
-          "relative my-3 overflow-x-auto rounded-sm bg-[#24292e] p-3 text-base",
+          "relative my-3 max-w-5xl overflow-x-auto rounded-sm bg-[#24292e] p-3 text-base",
           className,
         )}
         {...props}

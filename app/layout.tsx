@@ -1,3 +1,4 @@
+import Header from "@/app/_components/Header";
 import "@/styles/globals.css";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
 
@@ -33,10 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="">
       <body
-        className={`${sansFont.variable} ${monoFont.variable} font-regular tracking-wide antialiased`}
+        className={`${sansFont.variable} ${monoFont.variable} tracking-wide antialiased`}
       >
+        <Header />
         {children}
       </body>
     </html>
