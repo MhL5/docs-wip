@@ -45,18 +45,6 @@ export default function layout({ children }: { children: React.ReactNode }) {
                 {section.title}
               </h4>
               <div className="space-y-1">
-                {/* {section.items.map((item) => (
-                  <Button
-                    key={`${item.title}-${item.url}`}
-                    asChild
-                    variant="ghost"
-                    className="w-full justify-start font-medium"
-                  >
-                    <Link key={item.title} href={item.url}>
-                      {item.title}
-                    </Link>
-                  </Button>
-                ))} */}
                 <SidebarButtons items={section.items} />
               </div>
             </div>

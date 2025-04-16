@@ -25,12 +25,9 @@ export default function Header() {
           </Link>
 
           <nav className="hidden md:flex md:items-center md:space-x-6">
-            <Link
-              href="/snippets"
-              className="text-foreground/60 hover:text-foreground/80 focus-visible:ring-ring ring-offset-background rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
-            >
-              Snippets
-            </Link>
+            <Button asChild variant="ghost" size="xs">
+              <Link href="/snippets/components/typography">Snippets</Link>
+            </Button>
           </nav>
         </div>
 

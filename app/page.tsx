@@ -21,7 +21,7 @@ export default function Page() {
           </Button>
 
           <Button asChild variant="outline" size="lg">
-            <Link href="/snippets">View Snippets</Link>
+            <Link href="/snippets/components/typography">View Snippets</Link>
           </Button>
         </div>
       </div>

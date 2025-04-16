@@ -21,14 +21,14 @@ export default function CopyButton({
 
   return (
     <Button
-      variant="secondary"
       className="border"
+      variant="outline"
       size="xs"
       onClick={handleCopy}
       {...props}
     >
       {isCopied ? (
-        <CheckIcon className="h-3 w-3" />
+        <CheckIcon className="h-3 w-3 stroke-green-500" />
       ) : (
         <CopyIcon className="h-3 w-3" />
       )}
