@@ -1,4 +1,5 @@
 import Header from "@/app/_components/Header";
+import Providers from "@/providers/Providers";
 import "@/styles/globals.css";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
 
@@ -34,12 +35,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${sansFont.variable} ${monoFont.variable} tracking-wide antialiased`}
       >
-        <Header />
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

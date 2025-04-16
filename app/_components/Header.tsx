@@ -3,6 +3,7 @@ import Image from "next/image";
 import iconPng from "@/app/icon.png";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import ModeToggle from "@/components/blocks/buttons/ToggleTheme";
 
 export default function Header() {
   return (
@@ -34,16 +35,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center space-x-2 md:space-x-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9"
-            aria-label="Toggle theme"
-          >
-            <SunIcon className="h-6 w-6 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-            <MoonIcon className="absolute h-6 w-6 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
+          <ModeToggle />
         </div>
       </div>
     </header>

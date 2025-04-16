@@ -1,3 +1,4 @@
+import SidebarButtons from "@/app/snippets/_components/SidebarButtons";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -44,7 +45,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
                 {section.title}
               </h4>
               <div className="space-y-1">
-                {section.items.map((item) => (
+                {/* {section.items.map((item) => (
                   <Button
                     key={`${item.title}-${item.url}`}
                     asChild
@@ -55,14 +56,15 @@ export default function layout({ children }: { children: React.ReactNode }) {
                       {item.title}
                     </Link>
                   </Button>
-                ))}
+                ))} */}
+                <SidebarButtons items={section.items} />
               </div>
             </div>
           ))}
         </nav>
       </aside>
 
-      <article className="">{children}</article>
+      <article>{children}</article>
     </div>
   );
 }
