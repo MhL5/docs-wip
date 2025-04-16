@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 const data = [
@@ -42,7 +40,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
         <nav className="grid gap-7 px-5">
           {data.map((section) => (
             <div key={section.title}>
-              <h4 className="mb-2 text-sm font-semibold tracking-tight">
+              <h4 className="mb-2 font-semibold tracking-tight">
                 {section.title}
               </h4>
               <div className="space-y-1">
@@ -51,8 +49,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
                     key={`${item.title}-${item.url}`}
                     asChild
                     variant="ghost"
-                    size="sm"
-                    className="w-full justify-start px-0 font-normal"
+                    className="w-full justify-start font-medium"
                   >
                     <Link key={item.title} href={item.url}>
                       {item.title}
