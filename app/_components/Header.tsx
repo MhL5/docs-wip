@@ -1,9 +1,7 @@
-import { Github, MenuIcon, MoonIcon, SunIcon } from "lucide-react";
-import Image from "next/image";
+import NavigationLinks from "@/app/_components/NavigationLinks";
 import iconPng from "@/app/icon.png";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import ModeToggle from "@/components/blocks/buttons/ToggleTheme";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -11,9 +9,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { routes } from "@/constants/constants";
-import SidebarButtons from "@/app/snippets/_components/SidebarButtons";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import { MenuIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -34,7 +33,7 @@ export default function Header() {
             <span className="text-2xl leading-none font-medium">MhL</span>
           </Link>
 
-          <nav className="hidden md:flex md:items-center md:space-x-6">
+          <nav className="hidden lg:flex lg:items-center lg:gap-x-6">
             <Button
               asChild
               variant="link"
@@ -78,18 +77,7 @@ export default function Header() {
 
               <Separator className="bg-foreground my-1 h-[2px] w-full" />
 
-              <nav className="grid gap-7">
-                {routes.snippets.map((section) => (
-                  <div key={section.title}>
-                    <h4 className="mb-2 font-semibold tracking-tight">
-                      {section.title}
-                    </h4>
-                    <div className="space-y-1">
-                      <SidebarButtons items={section.items} />
-                    </div>
-                  </div>
-                ))}
-              </nav>
+              <NavigationLinks />
             </SheetContent>
           </Sheet>
         </div>
