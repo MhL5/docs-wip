@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -20,8 +21,11 @@ export default function SidebarButtons({
           <Button
             key={`${item.title}-${item.url}`}
             asChild
-            variant={isActive ? "secondary" : "ghost"}
-            className="w-full justify-start font-medium"
+            variant="ghost"
+            className={cn(
+              "w-full justify-start font-medium",
+              isActive ? "text-primary" : "",
+            )}
           >
             <Link key={item.title} href={item.url}>
               {item.title}
