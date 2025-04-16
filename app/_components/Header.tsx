@@ -49,7 +49,7 @@ export default function Header() {
         <div className="flex items-center space-x-2 md:space-x-4">
           <ModeToggle />
           <Sheet>
-            <SheetTrigger asChild className="md:hidden">
+            <SheetTrigger asChild className="lg:hidden">
               <Button variant="ghost" size="icon">
                 <MenuIcon />
               </Button>
