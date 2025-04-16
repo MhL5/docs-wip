@@ -102,7 +102,7 @@ const components = {
     return (
       <pre
         className={cn(
-          "relative overflow-x-auto rounded-sm bg-[#24292e] p-3 text-base",
+          "relative my-3 overflow-x-auto rounded-sm bg-[#24292e] p-3 text-base",
           className,
         )}
         {...props}
