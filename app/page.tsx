@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Page() {
@@ -15,18 +16,13 @@ export default function Page() {
           about frontend development.
         </p>
         <div className="flex justify-center gap-4">
-          <Link
-            href="#"
-            className="rounded-lg bg-indigo-600 px-6 py-3 text-white transition-colors hover:bg-indigo-700"
-          >
-            Read Blog
-          </Link>
-          <Link
-            href="/snippets"
-            className="rounded-lg border border-indigo-600 px-6 py-3 text-indigo-400 transition-colors hover:bg-indigo-600/10"
-          >
-            View Snippets
-          </Link>
+          <Button asChild variant="default" size="lg">
+            <Link href="#">Read Blog</Link>
+          </Button>
+
+          <Button asChild variant="outline" size="lg">
+            <Link href="/snippets">View Snippets</Link>
+          </Button>
         </div>
       </div>
     </main>
