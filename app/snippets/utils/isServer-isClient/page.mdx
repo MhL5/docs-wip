@@ -1,0 +1,11 @@
+# isServer & isClient
+
+## Overview
+
+very simple helper functions to determine if the code is running on the server or the client.
+
+```tsx
+export const isServer = () => typeof window === "undefined";
+
+export const isClient = () => !isServer();
+```
