@@ -8,37 +8,37 @@ import { codeToHtml } from "shiki";
 const components = {
   h1: (props: ComponentPropsWithoutRef<"h1">) => (
     <h1
-      className="mt-4 mb-6 scroll-m-20 font-mono text-4xl font-extrabold tracking-tight"
+      className="mt-8 mb-6 scroll-m-20 font-mono text-4xl font-extrabold tracking-tight"
       {...props}
     />
   ),
   h2: (props: ComponentPropsWithoutRef<"h2">) => (
     <h2
-      className="mt-4 mb-6 scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0"
+      className="mt-8 mb-6 scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0"
       {...props}
     />
   ),
   h3: (props: ComponentPropsWithoutRef<"h3">) => (
     <h3
-      className="mt-4 mb-6 scroll-m-20 text-2xl font-semibold tracking-tight"
+      className="mt-8 mb-6 scroll-m-20 text-2xl font-semibold tracking-tight"
       {...props}
     />
   ),
   h4: (props: ComponentPropsWithoutRef<"h4">) => (
     <h4
-      className="mt-4 mb-6 scroll-m-20 text-xl font-semibold tracking-tight"
+      className="mt-8 mb-6 scroll-m-20 text-xl font-semibold tracking-tight"
       {...props}
     />
   ),
   h5: (props: ComponentPropsWithoutRef<"h5">) => (
     <h5
-      className="mt-4 mb-6 scroll-m-20 text-lg font-semibold tracking-tight"
+      className="mt-8 mb-6 scroll-m-20 text-lg font-semibold tracking-tight"
       {...props}
     />
   ),
   h6: (props: ComponentPropsWithoutRef<"h6">) => (
     <h6
-      className="mt-4 mb-6 scroll-m-20 text-base font-semibold tracking-tight"
+      className="mt-8 mb-6 scroll-m-20 text-base font-semibold tracking-tight"
       {...props}
     />
   ),
@@ -140,7 +140,7 @@ const components = {
     return (
       <code
         {...props}
-        className="prose-code:after:content-none bg-secondary text-secondary-foreground rounded-sm px-1.5 py-0.5 tracking-wide"
+        className="prose-code:after:content-none bg-secondary text-secondary-foreground rounded-sm px-1.5 py-0.5 tracking-wide text-nowrap"
       >
         {typeof children === "string" ? children.replaceAll("`", "") : children}
       </code>
