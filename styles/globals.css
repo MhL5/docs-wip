@@ -2,10 +2,10 @@
 @import "tw-animate-css";
 
 @theme {
-  --font-family-code:
+  --font-code:
     var(--font-geist-mono), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-regular:
+  --font-regular:
     var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }

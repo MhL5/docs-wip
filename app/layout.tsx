@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${sansFont.variable} ${monoFont.variable} tracking-wide antialiased`}
+        className={`${sansFont.variable} ${monoFont.variable} font-regular tracking-wide antialiased`}
       >
         <Providers>
           <Header />
