@@ -1,10 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { SheetClose } from "@/components/ui/sheet";
 import { routes } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Fragment } from "react";
 
 interface NavItemProps {
   title: string;
@@ -12,6 +14,7 @@ interface NavItemProps {
   isActive: boolean;
   className?: string;
   isSubItem?: boolean;
+  isInsideSheet?: boolean;
 }
 
 const NavItem = ({
@@ -20,38 +23,42 @@ const NavItem = ({
   isActive,
   className,
   isSubItem,
-}: NavItemProps) => (
-  <Button
-    asChild
-    variant="ghost"
-    size={isSubItem ? "sm" : "default"}
-    className={cn(
-      "w-full justify-start transition-colors",
-      isActive
-        ? "bg-primary/10 text-primary hover:bg-primary/20"
-        : "text-muted-foreground hover:text-foreground hover:bg-muted",
-      className,
-    )}
-  >
-    <Link href={url}>{title}</Link>
-  </Button>
-);
+  isInsideSheet,
+}: NavItemProps) => {
+  const Wrapper = isInsideSheet ? SheetClose : Fragment;
 
-export default function NavigationLinks() {
+  return (
+    <Wrapper asChild>
+      <Button
+        asChild
+        variant="nav"
+        size={isSubItem ? "sm" : "default"}
+        className={cn(
+          "w-full justify-start text-base transition-all",
+          isActive ? "text-primary" : "text-muted-foreground",
+          className,
+        )}
+      >
+        <Link href={url}>{title}</Link>
+      </Button>
+    </Wrapper>
+  );
+};
+
+export default function NavigationLinks({
+  isInsideSheet = false,
+}: {
+  isInsideSheet?: boolean;
+}) {
   const pathname = usePathname();
 
   return (
     <nav className="grid gap-6 px-5">
       {routes.snippets.map(({ title, url, items }) => (
         <div key={`${title}-${url}`}>
-          <Button
-            asChild
-            variant="ghost"
-            size="lg"
-            className="text-foreground mb-2 w-full justify-start px-2 text-lg font-semibold tracking-tight hover:bg-transparent"
-          >
-            <Link href={url}>{title}</Link>
-          </Button>
+          <h2 className="text-foreground mb-2 w-full justify-start px-2 text-lg font-semibold tracking-wider hover:bg-transparent">
+            {title}
+          </h2>
           <div className="space-y-1">
             {items?.map((item) => {
               const isActive = pathname.includes(item.url);
@@ -61,6 +68,7 @@ export default function NavigationLinks() {
                   <NavItem
                     title={item.title}
                     url={item.url}
+                    isInsideSheet={isInsideSheet}
                     isActive={isActive}
                   />
                   {item?.subItems?.map((subItem) => (
@@ -69,6 +77,7 @@ export default function NavigationLinks() {
                       title={subItem.title}
                       url={subItem.url}
                       isActive={isActive}
+                      isInsideSheet={isInsideSheet}
                       isSubItem
                       className="pl-6 text-sm"
                     />

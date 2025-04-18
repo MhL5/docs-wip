@@ -77,7 +77,7 @@ export default function Header() {
 
               <Separator className="bg-foreground my-1 h-[2px] w-full" />
 
-              <NavigationLinks />
+              <NavigationLinks isInsideSheet />
             </SheetContent>
           </Sheet>
         </div>
