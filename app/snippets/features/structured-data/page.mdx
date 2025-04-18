@@ -1,0 +1,83 @@
+# Structured Data
+
+## Overview
+
+Structured data is a standardized format for providing information about a page and classifying its content. It helps search engines understand the content of your pages and can enhance how your pages appear in search results.
+
+## Component
+
+The `StructuredDataScript` component provides a type-safe way to add structured data to your Next.js pages using the `schema-dts` package. It follows Next.js 15's recommended approach for implementing structured data.
+
+```tsx
+import type { Thing, WithContext } from "schema-dts";
+
+type StructuredDataScriptProps<T extends Thing> = {
+  data: WithContext<T>;
+  id?: string;
+};
+
+/**
+ * Renders a structured data script tag for a given data object.
+ *
+ * @param data - The structured data object to render
+ * @param id - Optional ID for the script tag
+ * @returns A React component that renders the structured data script tag
+ * @throws Error if the data cannot be stringified
+ */
+export default function StructuredDataScript<T extends Thing>({
+  data,
+  id,
+}: StructuredDataScriptProps<T>) {
+  return (
+    <script
+      id={id}
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data),
+      }}
+    />
+  );
+}
+```
+
+## Usage Examples
+
+### Basic Usage
+
+```tsx
+import { StructuredDataScript } from "@/components/structured-data";
+import type { WithContext, Article } from "schema-dts";
+
+const articleData: WithContext<Article> = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "My Article Title",
+  author: {
+    "@type": "Person",
+    name: "John Doe",
+  },
+  datePublished: "2024-03-20",
+};
+
+export default function ArticlePage() {
+  return (
+    <>
+      <StructuredDataScript data={articleData} />
+      {/* Your page content */}
+    </>
+  );
+}
+```
+
+## References
+
+- [Next.js Structured Data Documentation](https://nextjs.org/docs/app/building-your-application/optimizing/metadata#json-ld)
+- [Schema.org](https://schema.org/)
+- [Google Rich Results Test](https://search.google.com/test/rich-results)
+- [Google Search Central - Structured Data](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+
+## Tools
+
+- [schema-dts](https://www.npmjs.com/package/schema-dts) - TypeScript types for Schema.org vocabulary
+- [SEO Meta 1 Copy](https://chromewebstore.google.com/detail/seo-meta-1-copy/eblbmdomppeajmpblgeppodbkfnonppc) - Chrome extension for testing structured data
+- [Schema.org Validator](https://validator.schema.org/) - Validate your structured data against Schema.org
