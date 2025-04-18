@@ -1,3 +1,6 @@
+// This file is auto-generated. Do not edit manually.
+// Run 'npm run generate-routes' to update.
+
 type Links = {
   title: string;
   url: string;
@@ -14,29 +17,33 @@ type Links = {
 export const routes: Record<string, Links[]> = {
   snippets: [
     {
-      title: "Components",
-      url: "#",
+      title: "components",
+      url: "/snippets/components",
       items: [
         {
           title: "typography",
           url: "/snippets/components/typography",
         },
+      ],
+    },
+    {
+      title: "features",
+      url: "/snippets/features",
+      items: [
         {
-          title: "form",
-          url: "/snippets/components/form",
-          subItems: [
-            {
-              title: "input",
-              url: "/snippets/components/form/input",
-            },
-          ],
+          title: "structured data",
+          url: "/snippets/features/structured-data",
         },
       ],
     },
     {
-      title: "Hooks",
-      url: "#",
+      title: "hooks",
+      url: "/snippets/hooks",
       items: [
+        {
+          title: "useDebouncedValue",
+          url: "/snippets/hooks/useDebouncedValue",
+        },
         {
           title: "useIsMobile",
           url: "/snippets/hooks/useIsMobile",
@@ -45,9 +52,15 @@ export const routes: Record<string, Links[]> = {
           title: "useIsMounted",
           url: "/snippets/hooks/useIsMounted",
         },
+      ],
+    },
+    {
+      title: "utils",
+      url: "/snippets/utils",
+      items: [
         {
-          title: "useDebouncedValue",
-          url: "/snippets/hooks/useDebouncedValue",
+          title: "isServer isClient",
+          url: "/snippets/utils/isServer-isClient",
         },
       ],
     },
