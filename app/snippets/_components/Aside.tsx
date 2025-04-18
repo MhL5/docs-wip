@@ -23,13 +23,11 @@ const NavItem = ({
 }: NavItemProps) => (
   <Button
     asChild
-    variant="ghost"
+    variant="nav"
     size={isSubItem ? "sm" : "default"}
     className={cn(
-      "w-full justify-start transition-colors",
-      isActive
-        ? "bg-primary/10 text-primary hover:bg-primary/20"
-        : "text-muted-foreground hover:text-foreground hover:bg-muted",
+      "w-full justify-start text-base transition-all",
+      isActive ? "text-primary" : "text-muted-foreground",
       className,
     )}
   >
@@ -45,14 +43,9 @@ export default function Aside() {
       <nav className="grid gap-6 px-5">
         {routes.snippets.map(({ title, url, items }) => (
           <div key={`${title}-${url}`}>
-            <Button
-              asChild
-              variant="ghost"
-              size="lg"
-              className="text-foreground mb-2 w-full justify-start px-2 text-lg font-semibold tracking-tight hover:bg-transparent"
-            >
-              <Link href={url}>{title}</Link>
-            </Button>
+            <h2 className="text-foreground mb-2 w-full justify-start px-2 text-lg font-semibold tracking-wider hover:bg-transparent">
+              {title}
+            </h2>
             <div className="space-y-1">
               {items?.map((item) => {
                 const isActive = pathname.includes(item.url);
