@@ -43,7 +43,7 @@ export default function Aside() {
       <nav className="grid gap-6 px-5">
         {routes.snippets.map(({ title, url, items }) => (
           <div key={`${title}-${url}`}>
-            <h2 className="text-foreground mb-2 w-full justify-start px-2 text-lg font-semibold tracking-wider hover:bg-transparent">
+            <h2 className="text-foreground mb-2 w-full justify-start px-2 text-lg font-semibold tracking-wider capitalize hover:bg-transparent">
               {title}
             </h2>
             <div className="space-y-1">
