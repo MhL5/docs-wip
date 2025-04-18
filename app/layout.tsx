@@ -1,6 +1,7 @@
 import Header from "@/app/_components/Header";
 import Providers from "@/providers/Providers";
 import "@/styles/globals.css";
+import { Metadata } from "next";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
 
 const sansFont = Space_Grotesk({
@@ -17,17 +18,17 @@ const monoFont = Space_Mono({
   weight: ["400", "700"],
 });
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL("https://leerob.com"),
-//   alternates: {s
-//     canonical: "/",
-//   },
-//   title: {
-//     default: "MhL",
-//     template: "%s | MhL",
-//   },
-//   description: "Enthusiast Frontend developer",
-// };
+export const metadata: Metadata = {
+  metadataBase: new URL("https://mhl.dev"),
+  alternates: {
+    canonical: "/",
+  },
+  title: {
+    default: "MhL",
+    template: "%s | MhL",
+  },
+  description: "Enthusiast Frontend developer",
+};
 
 export default function RootLayout({
   children,
