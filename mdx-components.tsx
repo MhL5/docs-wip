@@ -65,8 +65,7 @@ const components = {
     <strong className="font-medium" {...props} />
   ),
   a: ({ href, children, ...props }: ComponentPropsWithoutRef<"a">) => {
-    const className =
-      "text-blue-500 hover:text-blue-700 dark:text-blue-700 dark:hover:text-blue-500 underline";
+    const className = "text-primary hover:text-primary/80  underline";
     if (href?.startsWith("/")) {
       return (
         <Link href={href} className={className} {...props}>

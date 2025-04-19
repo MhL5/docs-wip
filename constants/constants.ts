@@ -16,7 +16,7 @@ export const snippetsCategoryConfig: Record<
   },
   types: {
     icon: Code2,
-    tailwindClass: "text-purple-600 dark:text-purple-400",
+    tailwindClass: "text-blue-600 dark:text-blue-400",
   },
   components: {
     icon: Package,
