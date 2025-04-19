@@ -16,14 +16,6 @@ type StructuredDataScriptProps<T extends Thing> = {
   id?: string;
 };
 
-/**
- * Renders a structured data script tag for a given data object.
- *
- * @param data - The structured data object to render
- * @param id - Optional ID for the script tag
- * @returns A React component that renders the structured data script tag
- * @throws Error if the data cannot be stringified
- */
 export default function StructuredDataScript<T extends Thing>({
   data,
   id,

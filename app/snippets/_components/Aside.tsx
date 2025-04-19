@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { routes } from "@/constants/constants";
+import { snippetsCategoryConfig } from "@/constants/constants";
+import { snippetsLinks } from "@/constants/snippetsLinks";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -23,13 +24,9 @@ const NavItem = ({
 }: NavItemProps) => (
   <Button
     asChild
-    variant="nav"
-    size={isSubItem ? "sm" : "default"}
-    className={cn(
-      "w-full justify-start text-base transition-all",
-      isActive ? "text-primary" : "text-muted-foreground",
-      className,
-    )}
+    variant={isActive ? "default" : "ghost"}
+    size={isSubItem ? "xs" : "sm"}
+    className={cn("w-full justify-start transition-all", className)}
   >
     <Link href={url}>{title}</Link>
   </Button>
@@ -41,38 +38,49 @@ export default function Aside() {
   return (
     <aside className="hidden w-full pt-6 lg:block ltr:border-r rtl:border-l">
       <nav className="grid gap-6 px-5">
-        {routes.snippets.map(({ title, url, items }) => (
-          <div key={`${title}-${url}`}>
-            <h2 className="text-foreground mb-2 w-full justify-start px-2 text-lg font-semibold tracking-wider capitalize hover:bg-transparent">
-              {title}
-            </h2>
-            <div className="space-y-1">
-              {items?.map((item) => {
-                const isActive = pathname.includes(item.url);
+        {snippetsLinks.map(({ title, url, items }) => {
+          const config = snippetsCategoryConfig?.[`${title}`];
+          const Icon = config.icon;
 
-                return (
-                  <div key={`${item.title}-${item.url}`} className="space-y-1">
-                    <NavItem
-                      title={item.title}
-                      url={item.url}
-                      isActive={isActive}
-                    />
-                    {item?.subItems?.map((subItem) => (
+          return (
+            <div key={`${title}-${url}`}>
+              <h2
+                className={`${config.tailwindClass} || mb-2 flex w-full items-center justify-start gap-2 px-2 text-sm font-semibold tracking-wider capitalize`}
+              >
+                {Icon ? <Icon className="size-4" /> : null}
+                {title}
+              </h2>
+              <div className="space-y-1">
+                {items?.map((item) => {
+                  const isActive = pathname.includes(item.url);
+
+                  return (
+                    <div
+                      key={`${item.title}-${item.url}`}
+                      className="space-y-1"
+                    >
                       <NavItem
-                        key={subItem.title}
-                        title={subItem.title}
-                        url={subItem.url}
+                        title={item.title}
+                        url={item.url}
                         isActive={isActive}
-                        isSubItem
-                        className="pl-6 text-sm"
                       />
-                    ))}
-                  </div>
-                );
-              })}
+                      {item?.subItems?.map((subItem) => (
+                        <NavItem
+                          key={subItem.title}
+                          title={subItem.title}
+                          url={subItem.url}
+                          isActive={isActive}
+                          isSubItem
+                          className="pl-6"
+                        />
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </nav>
     </aside>
   );
