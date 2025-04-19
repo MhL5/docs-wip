@@ -37,7 +37,7 @@ export default function Aside() {
 
   return (
     <aside className="hidden w-full pt-6 lg:block ltr:border-r rtl:border-l">
-      <nav className="grid gap-6 px-5">
+      <nav className="grid gap-6 overflow-hidden px-5">
         {snippetsLinks.map(({ title, url, items }) => {
           const config = snippetsCategoryConfig?.[`${title}`];
           const Icon = config.icon;

@@ -48,6 +48,16 @@ export const snippetsLinks: Links[] = [
     ]
   },
   {
+    "title": "types",
+    "url": "/snippets/types",
+    "items": [
+      {
+        "title": "LaravelPaginatedResourceType",
+        "url": "/snippets/types/LaravelPaginatedResourceType"
+      }
+    ]
+  },
+  {
     "title": "utils",
     "url": "/snippets/utils",
     "items": [
