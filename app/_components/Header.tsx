@@ -9,6 +9,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { snippetsPageLink } from "@/constants/constants";
+import { snippetsLinks } from "@/constants/snippetsLinks";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";
@@ -34,14 +36,16 @@ export default function Header() {
           </Link>
 
           <nav className="hidden lg:flex lg:items-center lg:gap-x-6">
-            <Button
-              asChild
-              variant="link"
-              size="xs"
-              className="text-foreground"
-            >
-              <Link href="/snippets/components/typography">Snippets</Link>
-            </Button>
+            {snippetsPageLink ? (
+              <Button
+                asChild
+                variant="link"
+                size="xs"
+                className="text-foreground"
+              >
+                <Link href={`${snippetsPageLink}`}>Snippets</Link>
+              </Button>
+            ) : null}
           </nav>
         </div>
 

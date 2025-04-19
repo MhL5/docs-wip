@@ -1,3 +1,4 @@
+import { snippetsLinks } from "@/constants/snippetsLinks";
 import { BookOpen, Table, Code2, Package, Zap, Wrench } from "lucide-react";
 import { JSX } from "react";
 
@@ -30,3 +31,6 @@ export const snippetsCategoryConfig: Record<
     tailwindClass: "text-emerald-600 dark:text-emerald-400",
   },
 } as const;
+
+export const snippetsPageLink =
+  snippetsLinks?.[0]?.items && snippetsLinks[0].items[0]?.url;

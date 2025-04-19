@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { snippetsPageLink } from "@/constants/constants";
 import Link from "next/link";
 
 export default function Page() {
@@ -20,9 +21,11 @@ export default function Page() {
             <Link href="#">Read Blog</Link>
           </Button>
 
-          <Button asChild variant="outline" size="lg">
-            <Link href="/snippets/components/typography">View Snippets</Link>
-          </Button>
+          {snippetsPageLink ? (
+            <Button asChild variant="outline" size="lg">
+              <Link href={snippetsPageLink}>View Snippets</Link>
+            </Button>
+          ) : null}
         </div>
       </div>
     </main>
