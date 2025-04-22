@@ -151,7 +151,7 @@ function generateTanStackQueryHooks({
   if (method === "get") {
     const queryOptions = `import { queryOptions } from "@tanstack/react-query";
 
-export const ${functionName}QueryOptions = () => {
+export function ${functionName}QueryOptions() {
   return queryOptions({
     queryKey: [\`${functionName}\`],
     queryFn: async () => {
