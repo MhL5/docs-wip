@@ -101,7 +101,7 @@ const components = {
     return (
       <pre
         className={cn(
-          "relative my-3 block w-full overflow-x-auto rounded-md bg-[#24292e] p-4 text-base",
+          "bg-code-background relative my-3 block w-full overflow-x-auto rounded-md p-4 text-base",
           className,
         )}
         {...props}
