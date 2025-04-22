@@ -1,3 +1,8 @@
+import type { Options } from "./types";
+
+/**
+ * Generates a function name based on the HTTP method and resource name
+ */
 function generateFunctionName({
   method,
   name,
@@ -7,30 +12,45 @@ function generateFunctionName({
   name: Options["name"];
   capitalFirstWord?: boolean;
 }) {
-  const renameMethod = {
+  const methodMap: Record<Options["method"], string> = {
     post: "create",
     get: "get",
     delete: "delete",
     put: "update",
     patch: "update",
   };
-  const firstWord = capitalFirstWord
-    ? `${renameMethod?.[method]?.[0]?.toUpperCase() + renameMethod?.[method]?.slice(1)}`
-    : `${renameMethod?.[method]}`;
 
-  return `${firstWord}${name?.[0]?.toUpperCase() + name?.slice(1)}`;
+  const methodName = methodMap[method];
+  const firstWord = capitalFirstWord
+    ? methodName.charAt(0).toUpperCase() + methodName.slice(1)
+    : methodName;
+
+  return `${firstWord}${name.charAt(0).toUpperCase() + name.slice(1)}`;
 }
 
+/**
+ * API configuration based on the current version
+ */
+const apiConfig = {
+  apiImport: `import { authFetcher } from "@/features/authentication/utils/authFetcher";`,
+  resultTypeImport: `import type { FetchResult } from "@/types/FetchResult";`,
+  catchUtilImport: `import { catchErrorTyped } from "@/utils/catchErrorTyped";`,
+  apiObject: "authFetcher",
+  resultType: "FetchResult",
+  catchFunction: "catchErrorTyped",
+};
+
+/**
+ * Generates an async function for API requests
+ */
 function generateAsyncFunction({
-  version,
   name,
   route,
   method,
   defaultErrorMessage,
-}: Options) {
-  if (!name) return ``; // Simplified check
+}: Options): string {
+  if (!name) return "";
 
-  // Version-specific details
   const {
     apiImport,
     resultTypeImport,
@@ -38,24 +58,7 @@ function generateAsyncFunction({
     apiObject,
     resultType,
     catchFunction,
-  } =
-    version === "latest"
-      ? {
-          apiImport: `import { authFetcher } from "@/features/authentication/utils/authFetcher";`,
-          resultTypeImport: `import type { FetchResult } from "@/types/FetchResult";`,
-          catchUtilImport: `import { catchErrorTyped } from "@/utils/catchErrorTyped";`,
-          apiObject: "authFetcher",
-          resultType: "FetchResult",
-          catchFunction: "catchErrorTyped",
-        }
-      : {
-          apiImport: `import { authApi } from "@/features/authentication/utils/authApi";`,
-          resultTypeImport: `import type { RequestResult } from "@/types/RequestResult";`,
-          catchUtilImport: `import { catchKyErrorTyped } from "@/utils/catchErrorTyped";`,
-          apiObject: "authApi",
-          resultType: "RequestResult",
-          catchFunction: "catchKyErrorTyped",
-        };
+  } = apiConfig;
 
   const paramsTypeName = generateFunctionName({
     method,
@@ -63,29 +66,27 @@ function generateAsyncFunction({
     capitalFirstWord: true,
   });
   const isGetMethod = method === "get";
+  const functionName = generateFunctionName({ method, name });
 
-  const commonImports = `
+  // Build the complete function
+  return `${apiImport}
+${resultTypeImport}
+${catchUtilImport}
+
 type ApiResponse = any;
 
 ${isGetMethod ? "" : `export type ${paramsTypeName}Params = any;`}
-`;
 
-  const commonErrorHandling = `
 const defaultErrorMessage = \`${defaultErrorMessage}\`;
 const expectedErrors: Record<string, string> = {};
 function getErrorMessage(errorMessage: string | undefined) {
   if (!errorMessage) return defaultErrorMessage;
+  return expectedErrors[errorMessage] || defaultErrorMessage;
+}
 
-  const errorMsg = expectedErrors[errorMessage];
-  if (errorMsg) return errorMsg;
-
-  return defaultErrorMessage;
-}`;
-
-  const commonFunctionBody = `
-export async function ${generateFunctionName({ method, name })}(${isGetMethod ? "" : `params:${paramsTypeName}`}): ${resultType}<ApiResponse> {
+export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsTypeName}Params`}): Promise<${resultType}<ApiResponse>> {
   const [error, data] = await ${catchFunction}<ApiResponse>(
-    ${apiObject}.${method}('${route}'${isGetMethod ? "" : `{json: params}`}).json(),
+    ${apiObject}.${method}('${route}'${isGetMethod ? "" : `, {json: params}`}).json(),
   );
 
   if (error || !data)
@@ -97,27 +98,18 @@ export async function ${generateFunctionName({ method, name })}(${isGetMethod ? 
 
   return { success: true, data };
 }`;
-
-  // Combine parts into the final result string
-  return `${apiImport}
-${resultTypeImport}
-${catchUtilImport}
-${commonImports}
-${commonErrorHandling}
-${commonFunctionBody}
-`;
 }
 
+/**
+ * Generates TanStack Query hooks for the API functions
+ */
 function generateTanStackQueryHooks({
   name,
   method,
   queryHook,
   mutationSuccessMessage,
 }: Options): string[] {
-  const functionName = generateFunctionName({
-    method,
-    name,
-  });
+  const functionName = generateFunctionName({ method, name });
   const hookName = generateFunctionName({
     method,
     name,
@@ -137,8 +129,8 @@ export const ${functionName}QueryOptions = () => {
       return response.data;
     },
   });
-};
-`;
+};`;
+
     const query = `"use client";
 
 import { ${functionName}QueryOptions } from "@/features/${name}/hooks/${functionName}QueryOptions";
@@ -156,6 +148,7 @@ export function use${hookName}() {
     name,
     capitalFirstWord: true,
   });
+
   const mutation = `"use client";
 
 import {
@@ -185,8 +178,8 @@ export default function use${hookName}() {
       toast.error(error.message);
     },
   });
-}
-`;
+}`;
+
   return [mutation];
 }
 

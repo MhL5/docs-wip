@@ -5,6 +5,7 @@ import {
   methods,
   queryHooks,
 } from "@/app/snippets/tools/crud-generator/CrudForm/constants";
+import { Options } from "@/app/snippets/tools/crud-generator/CrudForm/types";
 import {
   generateAsyncFunction,
   generateTanStackQueryHooks,
@@ -160,42 +161,40 @@ export default function CrudForm() {
         )}
       </form>
 
-      <Suspense>
-        {generateTanStackQueryHooks(states)?.map((tqh, i) => {
-          return (
-            <div
-              key={`generateTanStackQueryHooks-${tqh.slice(0, 10)}-${i}`}
-              className={`${tqh ? "h-fit" : "h-0"} bg-code-background relative overflow-y-hidden rounded-lg transition-all duration-500 ease-linear`}
-            >
-              {tqh && (
-                <div className="p-4">
-                  <CopyButton
-                    content={tqh}
-                    className="absolute top-3 right-3"
-                  />
-                  <Code lang="tsx">{tqh}</Code>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </Suspense>
-
-      <Suspense>
-        <div
-          className={`${generateAsyncFunction(states) ? "h-fit" : "h-0"} bg-code-background relative overflow-y-hidden rounded-lg transition-all duration-500 ease-linear`}
-        >
-          {generateAsyncFunction(states) && (
-            <div className="p-4">
-              <CopyButton
-                content={generateAsyncFunction(states)}
-                className="absolute top-3 right-3"
-              />
-              <Code lang="tsx">{generateAsyncFunction(states)}</Code>
-            </div>
-          )}
-        </div>
-      </Suspense>
+      {generateTanStackQueryHooks(states).length > 0 &&
+      !!generateAsyncFunction(states) ? (
+        <Suspense>
+          {generateTanStackQueryHooks(states)?.map((tqh, i) => {
+            return (
+              <div
+                key={`generateTanStackQueryHooks-${tqh.slice(0, 10)}-${i}`}
+                className="bg-code-background relative overflow-y-hidden rounded-lg transition-all duration-500 ease-linear"
+              >
+                {tqh && (
+                  <div className="p-4">
+                    <CopyButton
+                      content={tqh}
+                      className="absolute top-3 right-3"
+                    />
+                    <Code lang="tsx">{tqh}</Code>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          <div className="bg-code-background relative overflow-y-hidden rounded-lg transition-all duration-500 ease-linear">
+            {generateAsyncFunction(states) && (
+              <div className="p-4">
+                <CopyButton
+                  content={generateAsyncFunction(states)}
+                  className="absolute top-3 right-3"
+                />
+                <Code lang="tsx">{generateAsyncFunction(states)}</Code>
+              </div>
+            )}
+          </div>
+        </Suspense>
+      ) : null}
     </fieldset>
   );
 }

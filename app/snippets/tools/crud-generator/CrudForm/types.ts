@@ -1,4 +1,4 @@
-type Options = {
+export type Options = {
   method: "post" | "get" | "delete" | "put" | "patch";
   name: string;
   defaultErrorMessage: string;
