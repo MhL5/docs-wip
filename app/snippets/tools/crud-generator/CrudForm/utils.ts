@@ -1,4 +1,6 @@
+import { toCamelCase } from "@/utils/toCamelCase";
 import type { Options } from "./types";
+import { toCapitalize } from "@/utils/toCapitalize";
 
 /**
  * Generates a function name based on the HTTP method and resource name
@@ -6,11 +8,11 @@ import type { Options } from "./types";
 function generateFunctionName({
   method,
   name,
-  capitalFirstWord = false,
+  to = "camelCase",
 }: {
   method: Options["method"];
   name: Options["name"];
-  capitalFirstWord?: boolean;
+  to?: "camelCase" | "capitalize";
 }) {
   const methodMap: Record<Options["method"], string> = {
     post: "create",
@@ -20,22 +22,21 @@ function generateFunctionName({
     patch: "update",
   };
 
-  const methodName = methodMap[method];
-  const firstWord = capitalFirstWord
-    ? methodName.charAt(0).toUpperCase() + methodName.slice(1)
-    : methodName;
+  const fnName = `${methodMap[method]}${name}`;
 
-  return `${firstWord}${name.charAt(0).toUpperCase() + name.slice(1)}`;
+  if (to === "camelCase") return toCamelCase(fnName);
+
+  return toCapitalize(fnName);
 }
 
 /**
  * API configuration based on the current version
  */
 const apiConfig = {
-  apiImport: `import { authFetcher } from "@/features/authentication/utils/authFetcher";`,
+  apiImport: `import { fetcher } from "@/features/authentication/utils/fetcher";`,
   resultTypeImport: `import type { FetchResult } from "@/types/FetchResult";`,
   catchUtilImport: `import { catchErrorTyped } from "@/utils/catchErrorTyped";`,
-  apiObject: "authFetcher",
+  apiObject: "fetcher",
   resultType: "FetchResult",
   catchFunction: "catchErrorTyped",
 };
@@ -63,7 +64,7 @@ function generateAsyncFunction({
   const paramsTypeName = generateFunctionName({
     method,
     name,
-    capitalFirstWord: true,
+    to: "capitalize",
   });
   const isGetMethod = method === "get";
   const functionName = generateFunctionName({ method, name });
@@ -73,16 +74,7 @@ function generateAsyncFunction({
 ${resultTypeImport}
 ${catchUtilImport}
 
-type ApiResponse = any;
-
-${isGetMethod ? "" : `export type ${paramsTypeName}Params = any;`}
-
-const defaultErrorMessage = \`${defaultErrorMessage}\`;
-const expectedErrors: Record<string, string> = {};
-function getErrorMessage(errorMessage: string | undefined) {
-  if (!errorMessage) return defaultErrorMessage;
-  return expectedErrors[errorMessage] || defaultErrorMessage;
-}
+type ApiResponse = any;${isGetMethod ? "" : `\nexport type ${paramsTypeName}Params = any;`}
 
 export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsTypeName}Params`}): Promise<${resultType}<ApiResponse>> {
   const [error, data] = await ${catchFunction}<ApiResponse>(
@@ -97,7 +89,19 @@ export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsType
     };
 
   return { success: true, data };
-}`;
+}
+
+// Error handling
+const defaultErrorMessage = \`${defaultErrorMessage}\`;
+
+const expectedErrors: Record<string, string> = {};
+
+const getErrorMessage = (errorMessage: string | undefined) =>
+  !errorMessage
+    ? defaultErrorMessage
+    : expectedErrors?.[errorMessage] || defaultErrorMessage;
+
+`;
 }
 
 /**
@@ -113,7 +117,7 @@ function generateTanStackQueryHooks({
   const hookName = generateFunctionName({
     method,
     name,
-    capitalFirstWord: true,
+    to: "capitalize",
   });
 
   if (method === "get") {
@@ -146,7 +150,7 @@ export function use${hookName}() {
   const paramsTypeName = generateFunctionName({
     method,
     name,
-    capitalFirstWord: true,
+    to: "capitalize",
   });
 
   const mutation = `"use client";
