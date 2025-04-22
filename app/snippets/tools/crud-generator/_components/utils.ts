@@ -104,7 +104,7 @@ function generateAsyncFunction({ name, route, method, nameLabel }: Options): {
 
 export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsTypeName}Params`}): ${resultType}<ApiResponse> {
   const [error, data] = await ${catchFunction}<ApiResponse>(
-    ${apiObject}.${method}('${route}'${isGetMethod ? "" : `, {json: params}`}).json(),
+    ${apiObject}.${method}(\`${route}\`${isGetMethod ? "" : `, {json: params}`}).json(),
   );
 
   if (error || !data)
