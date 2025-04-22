@@ -1,17 +1,14 @@
 "use client";
 
 import {
-  apiDefaultErrorMessage,
   methods,
   queryHooks,
-} from "@/app/snippets/tools/crud-generator/CrudForm/constants";
-import { Options } from "@/app/snippets/tools/crud-generator/CrudForm/types";
+} from "@/app/snippets/tools/crud-generator/_components/constants";
+import { Options } from "@/app/snippets/tools/crud-generator/_components/types";
 import {
   generateAsyncFunction,
   generateTanStackQueryHooks,
-} from "@/app/snippets/tools/crud-generator/CrudForm/utils";
-import CopyButton from "@/components/blocks/buttons/CopyButton";
-import Code from "@/components/blocks/code/Code";
+} from "@/app/snippets/tools/crud-generator/_components/utils";
 import CodeBlock from "@/components/blocks/code/CodeBlock";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

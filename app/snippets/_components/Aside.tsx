@@ -1,5 +1,6 @@
 "use client";
 
+import AddNewSnippet from "@/app/snippets/_components/AddNewSnippet";
 import { Button } from "@/components/ui/button";
 import { snippetsCategoryConfig } from "@/constants/constants";
 import { snippetsLinks } from "@/constants/snippetsLinks";
@@ -43,7 +44,10 @@ export default function Aside() {
           const Icon = config.icon;
 
           return (
-            <div key={`${title}-${url}`}>
+            <div
+              key={`${title}-${url}`}
+              className={title === "components" ? "capitalize" : ""}
+            >
               <h2
                 className={`${config.tailwindClass} || mb-2 flex w-full items-center justify-start gap-2 px-2 text-sm font-semibold tracking-wider capitalize`}
               >
@@ -82,6 +86,7 @@ export default function Aside() {
           );
         })}
       </nav>
+      <AddNewSnippet />
     </aside>
   );
 }

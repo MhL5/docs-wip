@@ -74,6 +74,10 @@ export const snippetsLinks: Links[] = [
       {
         "title": "isServer isClient",
         "url": "/snippets/utils/isServer-isClient"
+      },
+      {
+        "title": "objectKeysTyped",
+        "url": "/snippets/utils/objectKeysTyped"
       }
     ]
   }
