@@ -1,6 +1,5 @@
-import { toCamelCase } from "@/utils/toCamelCase";
-import type { Options } from "./types";
 import { toCapitalize } from "@/utils/toCapitalize";
+import type { Options } from "./types";
 
 /**
  * Generates a function name based on the HTTP method and resource name
@@ -22,11 +21,32 @@ function generateFunctionName({
     patch: "update",
   };
 
-  const fnName = `${methodMap[method]}${name}`;
+  if (to === "camelCase") return `${methodMap[method]}${toCapitalize(name)}`;
 
-  if (to === "camelCase") return toCamelCase(fnName);
+  return toCapitalize(`${methodMap[method]}${name}`);
+}
 
-  return toCapitalize(fnName);
+function generateMutationSuccessMessage({
+  method,
+  nameLabel,
+}: {
+  method: string;
+  nameLabel: string;
+}) {
+  if (method === "get") return "";
+
+  switch (method) {
+    case "create":
+      return `${nameLabel} با موفقیت ایجاد شد`;
+    case "update":
+      return `${nameLabel} با موفقیت بروزرسانی شد`;
+    case "patch":
+      return `${nameLabel} با موفقیت بروزرسانی شد`;
+    case "delete":
+      return `${nameLabel} با موفقیت حذف شد`;
+    default:
+      return "عملیات با موفقیت انجام شد";
+  }
 }
 
 /**
@@ -48,7 +68,7 @@ function generateAsyncFunction({
   name,
   route,
   method,
-  defaultErrorMessage,
+  nameLabel,
 }: Options): string {
   if (!name) return "";
 
@@ -92,7 +112,7 @@ export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsType
 }
 
 // Error handling
-const defaultErrorMessage = \`${defaultErrorMessage}\`;
+const defaultErrorMessage = 'دریافت ${nameLabel} با مشکل مواجه شد! لطفا دوباره امتحان کنید.';
 
 const expectedErrors: Record<string, string> = {};
 
@@ -111,7 +131,7 @@ function generateTanStackQueryHooks({
   name,
   method,
   queryHook,
-  mutationSuccessMessage,
+  nameLabel,
 }: Options): string[] {
   const functionName = generateFunctionName({ method, name });
   const hookName = generateFunctionName({
@@ -159,7 +179,6 @@ import {
   ${functionName},
   type ${paramsTypeName}Params,
 } from "@/features/${name}/services/${functionName}";
-import { ${functionName}QueryOptions } from "@/features/${name}/hooks/${functionName}QueryOptions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -173,7 +192,7 @@ export default function use${hookName}() {
       return response.data;
     },
     onSuccess: () => {
-      toast.success('${mutationSuccessMessage}');
+      toast.success('${generateMutationSuccessMessage({ method, nameLabel })}');
       queryClient.invalidateQueries({
         queryKey: [${functionName}QueryOptions().queryKey],
       });
@@ -188,7 +207,7 @@ export default function use${hookName}() {
 }
 
 export {
-  generateFunctionName,
   generateAsyncFunction,
+  generateFunctionName,
   generateTanStackQueryHooks,
 };

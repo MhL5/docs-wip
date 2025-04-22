@@ -27,11 +27,10 @@ import { toast } from "sonner";
 export default function CrudForm() {
   const [states, setStates] = useState<Options>({
     name: "",
+    nameLabel: "",
     method: "get",
     queryHook: "useSuspenseQuery",
-    defaultErrorMessage: apiDefaultErrorMessage,
     route: "",
-    mutationSuccessMessage: "",
   });
 
   const isGetMethod = states.method === "get";
@@ -51,6 +50,17 @@ export default function CrudForm() {
             onChange={(e) => setStates((s) => ({ ...s, name: e.target.value }))}
           />
         </div>
+        <div className="flex flex-col gap-2">
+          <Label>Label:</Label>
+          <Input
+            type="text"
+            dir="auto"
+            value={states.nameLabel}
+            onChange={(e) =>
+              setStates((s) => ({ ...s, nameLabel: e.target.value }))
+            }
+          />
+        </div>
 
         <div className="flex flex-col gap-2">
           <Label>Route:</Label>
@@ -64,18 +74,6 @@ export default function CrudForm() {
                 return toast.error("Route must not start with a slash");
               setStates((s) => ({ ...s, route: e.target.value }));
             }}
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <Label>Fallback Error Message:</Label>
-          <Input
-            type="text"
-            dir="auto"
-            value={states.defaultErrorMessage}
-            onChange={(e) =>
-              setStates((s) => ({ ...s, defaultErrorMessage: e.target.value }))
-            }
           />
         </div>
 
@@ -111,22 +109,7 @@ export default function CrudForm() {
           </SelectContent>
         </Select>
 
-        {!isGetMethod ? (
-          <div className="flex flex-col gap-2">
-            <Label>Mutation Success Message:</Label>
-            <Input
-              type="text"
-              dir="auto"
-              value={states.mutationSuccessMessage}
-              onChange={(e) =>
-                setStates((s) => ({
-                  ...s,
-                  mutationSuccessMessage: e.target.value,
-                }))
-              }
-            />
-          </div>
-        ) : (
+        {!isGetMethod ? null : (
           <Select
             onValueChange={(value) => {
               const isValidQueryHook = queryHooks.includes(
