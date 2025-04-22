@@ -48,6 +48,16 @@ export const snippetsLinks: Links[] = [
     ]
   },
   {
+    "title": "tools",
+    "url": "/snippets/tools",
+    "items": [
+      {
+        "title": "crud generator",
+        "url": "/snippets/tools/crud-generator"
+      }
+    ]
+  },
+  {
     "title": "types",
     "url": "/snippets/types",
     "items": [

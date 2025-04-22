@@ -1,5 +1,13 @@
 import { snippetsLinks } from "@/constants/snippetsLinks";
-import { BookOpen, Table, Code2, Package, Zap, Wrench } from "lucide-react";
+import {
+  BookOpen,
+  Table,
+  Code2,
+  Package,
+  Zap,
+  Wrench,
+  Hammer,
+} from "lucide-react";
 import { JSX } from "react";
 
 export const snippetsCategoryConfig: Record<
@@ -29,6 +37,10 @@ export const snippetsCategoryConfig: Record<
   utils: {
     icon: Wrench,
     tailwindClass: "text-emerald-600 dark:text-emerald-400",
+  },
+  tools: {
+    icon: Hammer,
+    tailwindClass: "text-rose-600 dark:text-rose-400",
   },
 } as const;
 
