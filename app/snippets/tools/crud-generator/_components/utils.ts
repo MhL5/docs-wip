@@ -149,8 +149,7 @@ function generateTanStackQueryHooks({
   });
 
   if (method === "get") {
-    const queryOptions = `import { ${functionName} } from "@/features/${name}/services/${functionName}";
-import { queryOptions } from "@tanstack/react-query";
+    const queryOptions = `import { queryOptions } from "@tanstack/react-query";
 
 export const ${functionName}QueryOptions = () => {
   return queryOptions({
@@ -165,7 +164,6 @@ export const ${functionName}QueryOptions = () => {
 
     const query = `"use client";
 
-import { ${functionName}QueryOptions } from "@/features/${name}/hooks/${functionName}QueryOptions";
 import { ${queryHook} } from "@tanstack/react-query";
 
 export function ${queryHook}${hookName}() {
