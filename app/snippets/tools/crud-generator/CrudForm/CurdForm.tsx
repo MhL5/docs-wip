@@ -12,6 +12,7 @@ import {
 } from "@/app/snippets/tools/crud-generator/CrudForm/utils";
 import CopyButton from "@/components/blocks/buttons/CopyButton";
 import Code from "@/components/blocks/code/Code";
+import CodeBlock from "@/components/blocks/code/CodeBlock";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -34,6 +35,7 @@ export default function CrudForm() {
   });
 
   const isGetMethod = states.method === "get";
+  const { data, name } = generateAsyncFunction(states);
 
   return (
     <fieldset className="my-8 flex flex-col gap-5 rounded-md border p-5">
@@ -144,38 +146,22 @@ export default function CrudForm() {
         )}
       </form>
 
-      {generateTanStackQueryHooks(states).length > 0 &&
-      !!generateAsyncFunction(states) ? (
+      {generateTanStackQueryHooks(states).length > 0 && !!data ? (
         <Suspense>
-          {generateTanStackQueryHooks(states)?.map((tqh, i) => {
+          {generateTanStackQueryHooks(states)?.map(({ data, name }, i) => {
             return (
-              <div
-                key={`generateTanStackQueryHooks-${tqh.slice(0, 10)}-${i}`}
-                className="bg-code-background relative overflow-y-hidden rounded-lg transition-all duration-500 ease-linear"
-              >
-                {tqh && (
-                  <div className="p-4">
-                    <CopyButton
-                      content={tqh}
-                      className="absolute top-3 right-3"
-                    />
-                    <Code lang="tsx">{tqh}</Code>
-                  </div>
-                )}
-              </div>
+              <CodeBlock
+                key={`generateTanStackQueryHooks-${data.slice(0, 10)}-${i}`}
+                data={data}
+                name={name}
+              />
             );
           })}
-          <div className="bg-code-background relative overflow-y-hidden rounded-lg transition-all duration-500 ease-linear">
-            {generateAsyncFunction(states) && (
-              <div className="p-4">
-                <CopyButton
-                  content={generateAsyncFunction(states)}
-                  className="absolute top-3 right-3"
-                />
-                <Code lang="tsx">{generateAsyncFunction(states)}</Code>
-              </div>
-            )}
-          </div>
+          <CodeBlock
+            key={`generateTanStackQueryHooks-${data.slice(0, 10)}`}
+            data={data}
+            name={name}
+          />
         </Suspense>
       ) : null}
     </fieldset>

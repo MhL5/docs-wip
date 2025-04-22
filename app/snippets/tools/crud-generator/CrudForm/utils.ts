@@ -23,39 +23,58 @@ function generateFunctionName({
 
   if (to === "camelCase") return `${methodMap[method]}${toCapitalize(name)}`;
 
-  return toCapitalize(`${methodMap[method]}${name}`);
+  return `${toCapitalize(methodMap[method])}${toCapitalize(name)}`;
 }
 
 function generateMutationSuccessMessage({
   method,
   nameLabel,
+  type,
 }: {
-  method: string;
-  nameLabel: string;
+  method: Options["method"];
+  nameLabel: Options["nameLabel"];
+  type: "error" | "success";
 }) {
-  if (method === "get") return "";
+  if (type === "success") {
+    if (method === "get") return "";
 
-  switch (method) {
-    case "create":
-      return `${nameLabel} با موفقیت ایجاد شد`;
-    case "update":
-      return `${nameLabel} با موفقیت بروزرسانی شد`;
-    case "patch":
-      return `${nameLabel} با موفقیت بروزرسانی شد`;
-    case "delete":
-      return `${nameLabel} با موفقیت حذف شد`;
-    default:
-      return "عملیات با موفقیت انجام شد";
+    switch (method) {
+      case "post":
+        return `${nameLabel} با موفقیت ایجاد شد`;
+      case "put":
+        return `${nameLabel} با موفقیت بروزرسانی شد`;
+      case "patch":
+        return `${nameLabel} با موفقیت بروزرسانی شد`;
+      case "delete":
+        return `${nameLabel} با موفقیت حذف شد`;
+      default:
+        return "عملیات با موفقیت انجام شد";
+    }
   }
+
+  if (type === "error") {
+    switch (method) {
+      case "post":
+        return `خطا در ایجاد ${nameLabel}`;
+      case "put":
+      case "patch":
+        return `خطا در بروزرسانی ${nameLabel}`;
+      case "delete":
+        return `خطا در حذف ${nameLabel}`;
+      case "get":
+        return `خطا در دریافت ${nameLabel}`;
+      default:
+        return "عملیات ناموفق بود";
+    }
+  }
+
+  return "";
 }
 
 /**
  * API configuration based on the current version
  */
 const apiConfig = {
-  apiImport: `import { fetcher } from "@/features/authentication/utils/fetcher";`,
-  resultTypeImport: `import type { FetchResult } from "@/types/FetchResult";`,
-  catchUtilImport: `import { catchErrorTyped } from "@/utils/catchErrorTyped";`,
   apiObject: "fetcher",
   resultType: "FetchResult",
   catchFunction: "catchErrorTyped",
@@ -64,22 +83,13 @@ const apiConfig = {
 /**
  * Generates an async function for API requests
  */
-function generateAsyncFunction({
-  name,
-  route,
-  method,
-  nameLabel,
-}: Options): string {
-  if (!name) return "";
+function generateAsyncFunction({ name, route, method, nameLabel }: Options): {
+  data: string;
+  name: string;
+} {
+  if (!name) return { data: "", name: "" };
 
-  const {
-    apiImport,
-    resultTypeImport,
-    catchUtilImport,
-    apiObject,
-    resultType,
-    catchFunction,
-  } = apiConfig;
+  const { apiObject, resultType, catchFunction } = apiConfig;
 
   const paramsTypeName = generateFunctionName({
     method,
@@ -89,14 +99,10 @@ function generateAsyncFunction({
   const isGetMethod = method === "get";
   const functionName = generateFunctionName({ method, name });
 
-  // Build the complete function
-  return `${apiImport}
-${resultTypeImport}
-${catchUtilImport}
+  return {
+    data: `type ApiResponse = any;${isGetMethod ? "" : `\nexport type ${paramsTypeName}Params = any;`}
 
-type ApiResponse = any;${isGetMethod ? "" : `\nexport type ${paramsTypeName}Params = any;`}
-
-export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsTypeName}Params`}): Promise<${resultType}<ApiResponse>> {
+export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsTypeName}Params`}): ${resultType}<ApiResponse> {
   const [error, data] = await ${catchFunction}<ApiResponse>(
     ${apiObject}.${method}('${route}'${isGetMethod ? "" : `, {json: params}`}).json(),
   );
@@ -112,7 +118,7 @@ export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsType
 }
 
 // Error handling
-const defaultErrorMessage = 'دریافت ${nameLabel} با مشکل مواجه شد! لطفا دوباره امتحان کنید.';
+const defaultErrorMessage = '${generateMutationSuccessMessage({ method, nameLabel, type: "error" })}';
 
 const expectedErrors: Record<string, string> = {};
 
@@ -121,7 +127,9 @@ const getErrorMessage = (errorMessage: string | undefined) =>
     ? defaultErrorMessage
     : expectedErrors?.[errorMessage] || defaultErrorMessage;
 
-`;
+`,
+    name: `${functionName}.ts`,
+  };
 }
 
 /**
@@ -132,7 +140,7 @@ function generateTanStackQueryHooks({
   method,
   queryHook,
   nameLabel,
-}: Options): string[] {
+}: Options): { data: string; name: string }[] {
   const functionName = generateFunctionName({ method, name });
   const hookName = generateFunctionName({
     method,
@@ -160,11 +168,14 @@ export const ${functionName}QueryOptions = () => {
 import { ${functionName}QueryOptions } from "@/features/${name}/hooks/${functionName}QueryOptions";
 import { ${queryHook} } from "@tanstack/react-query";
 
-export function use${hookName}() {
+export function ${queryHook}${hookName}() {
   return ${queryHook}(${functionName}QueryOptions());
 }`;
 
-    return [queryOptions, query];
+    return [
+      { data: queryOptions, name: `${functionName}QueryOptions.ts` },
+      { data: query, name: `${queryHook}${hookName}.ts` },
+    ];
   }
 
   const paramsTypeName = generateFunctionName({
@@ -175,10 +186,6 @@ export function use${hookName}() {
 
   const mutation = `"use client";
 
-import {
-  ${functionName},
-  type ${paramsTypeName}Params,
-} from "@/features/${name}/services/${functionName}";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -192,7 +199,7 @@ export default function use${hookName}() {
       return response.data;
     },
     onSuccess: () => {
-      toast.success('${generateMutationSuccessMessage({ method, nameLabel })}');
+      toast.success('${generateMutationSuccessMessage({ method, nameLabel, type: "success" })}');
       queryClient.invalidateQueries({
         queryKey: [${functionName}QueryOptions().queryKey],
       });
@@ -203,7 +210,7 @@ export default function use${hookName}() {
   });
 }`;
 
-  return [mutation];
+  return [{ data: mutation, name: `use${hookName}.ts` }];
 }
 
 export {

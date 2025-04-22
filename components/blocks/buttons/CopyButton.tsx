@@ -30,7 +30,7 @@ export default function CopyButton({
       {isCopied ? (
         <CheckIcon className="h-3 w-3 stroke-green-500" />
       ) : (
-        <CopyIcon className="h-3 w-3" />
+        <CopyIcon className="stroke-foreground h-3 w-3" />
       )}
     </Button>
   );
