@@ -8,6 +8,8 @@
   --font-regular:
     var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-code-background: #24292e;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -92,7 +94,7 @@
 }
 
 .dark {
-  --background: oklch(0.16 0.0357 278.98);
+  --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.985 0 0);
