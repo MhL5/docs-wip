@@ -11,7 +11,6 @@ import {
 } from "@/app/snippets/tools/crud-generator/CrudForm/utils";
 import CopyButton from "@/components/blocks/buttons/CopyButton";
 import Code from "@/components/blocks/code/Code";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -26,7 +25,6 @@ import { toast } from "sonner";
 
 export default function CrudForm() {
   const [states, setStates] = useState<Options>({
-    version: "latest",
     name: "",
     method: "get",
     queryHook: "useSuspenseQuery",
@@ -40,19 +38,7 @@ export default function CrudForm() {
   return (
     <fieldset className="my-8 flex flex-col gap-5 rounded-md border p-5">
       <legend className="flex gap-3 px-4 text-lg font-bold">
-        <span>Crud Form</span>
-        <Button
-          className=""
-          variant="ghost"
-          onClick={() => {
-            setStates((s) => ({
-              ...s,
-              version: s.version === "latest" ? "legacy" : "latest",
-            }));
-          }}
-        >
-          {states.version === "latest" ? "latest" : "legacy"}
-        </Button>
+        <>Crud Form</>
       </legend>
       <form className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">

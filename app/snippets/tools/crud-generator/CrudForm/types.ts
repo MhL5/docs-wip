@@ -3,7 +3,6 @@ type Options = {
   name: string;
   defaultErrorMessage: string;
   route: string;
-  version: "legacy" | "latest";
   queryHook: "useSuspenseQuery" | "useQuery";
   mutationSuccessMessage: string;
 };
