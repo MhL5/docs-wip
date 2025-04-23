@@ -20,6 +20,10 @@ export const snippetsLinks: Links[] = [
     "url": "/snippets/components",
     "items": [
       {
+        "title": "groupByKey",
+        "url": "/snippets/components/groupByKey"
+      },
+      {
         "title": "StructuredDataScript",
         "url": "/snippets/components/StructuredDataScript"
       },
