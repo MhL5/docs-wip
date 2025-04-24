@@ -97,12 +97,51 @@ function generateAsyncFunction({ name, route, method, nameLabel }: Options): {
     to: "capitalize",
   });
   const isGetMethod = method === "get";
+  const isUpdate = method === "put" || method === "patch";
   const functionName = generateFunctionName({ method, name });
 
-  return {
-    data: `type ApiResponse = any;${isGetMethod ? "" : `\nexport type ${paramsTypeName}Params = any;`}
+  const isGetAllMethod = method === "get" && name.endsWith("s");
 
-export async function ${functionName}(${isGetMethod ? "" : `params: ${paramsTypeName}Params`}): ${resultType}<ApiResponse> {
+  const routeIncludesTemplateLiteral = route.includes("${");
+  const routeTemplateLiteralType = routeIncludesTemplateLiteral
+    ? [...route.matchAll(/\${(.*?)}/g)].map((m) => m[1])
+    : "";
+
+  return {
+    data: `type ApiResponse = any;${
+      isGetMethod
+        ? ""
+        : `\nexport type ${paramsTypeName}Params = ${
+            isUpdate
+              ? `{
+ ${name}: Partial<${generateFunctionName({
+   method: "post",
+   name,
+   to: "capitalize",
+ })}Params>;
+ ${name}Id: string;
+}`
+              : `${
+                  routeTemplateLiteralType
+                    ? `{
+ ${routeTemplateLiteralType}: string;
+}`
+                    : "any"
+                }`
+          };`
+    }
+
+export async function ${functionName}(${
+      isGetAllMethod
+        ? ""
+        : `${
+            routeTemplateLiteralType
+              ? `{
+ ${routeTemplateLiteralType}: string; 
+}`
+              : `params`
+          }: ${paramsTypeName}Params`
+    }): ${resultType}<ApiResponse> {
   const [error, data] = await ${catchFunction}<ApiResponse>(
     ${apiObject}.${method}(\`${route}\`${isGetMethod ? "" : `, {json: params}`}).json(),
   );
@@ -199,7 +238,7 @@ export default function use${hookName}() {
     onSuccess: () => {
       toast.success('${generateMutationSuccessMessage({ method, nameLabel, type: "success" })}');
       queryClient.invalidateQueries({
-        queryKey: [${functionName}QueryOptions().queryKey],
+        queryKey: [${generateFunctionName({ method: "get", name })}QueryOptions().queryKey],
       });
     },
     onError: (error) => {
