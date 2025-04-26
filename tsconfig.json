@@ -13,6 +13,17 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    // -------------------------------------------------------------------------------------
+    // ⚙️ custom settings:
+    "pretty": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "noUnusedLocals": true,
+    "verbatimModuleSyntax": true, // Enforced 'type-only' imports
+    // ⚙️ end of custom settings
+    // -------------------------------------------------------------------------------------
     "plugins": [
       {
         "name": "next"

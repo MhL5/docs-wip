@@ -7,8 +7,9 @@ import {
   Zap,
   Wrench,
   Hammer,
+  Settings2,
 } from "lucide-react";
-import { JSX } from "react";
+import type { JSX } from "react";
 
 export const snippetsCategoryConfig: Record<
   string,
@@ -41,6 +42,10 @@ export const snippetsCategoryConfig: Record<
   tools: {
     icon: Hammer,
     tailwindClass: "text-rose-600 dark:text-rose-400",
+  },
+  configs: {
+    icon: Settings2,
+    tailwindClass: "text-purple-600 dark:text-purple-400",
   },
 } as const;
 

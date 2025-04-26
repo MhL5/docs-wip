@@ -30,6 +30,16 @@ export const snippetsLinks: Links[] = [
     ]
   },
   {
+    "title": "configs",
+    "url": "/snippets/configs",
+    "items": [
+      {
+        "title": "tsconfig",
+        "url": "/snippets/configs/tsconfig"
+      }
+    ]
+  },
+  {
     "title": "hooks",
     "url": "/snippets/hooks",
     "items": [
