@@ -4,7 +4,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "generate-routes": "node --experimental-strip-types scripts/generate-routes.ts"
+    "generate-routes": "node --experimental-strip-types scripts/generate-routes.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@next/mdx": "15.2.0",

@@ -10,7 +10,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { snippetsPageLink } from "@/constants/constants";
-import { snippetsLinks } from "@/constants/snippetsLinks";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import Image from "next/image";

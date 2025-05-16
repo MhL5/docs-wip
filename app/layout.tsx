@@ -1,7 +1,7 @@
 import Header from "@/app/_components/Header";
 import Providers from "@/providers/Providers";
 import "@/styles/globals.css";
-import { Metadata } from "next";
+import { type Metadata } from "next";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
 
 const sansFont = Space_Grotesk({
