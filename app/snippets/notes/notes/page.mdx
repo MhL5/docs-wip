@@ -1,0 +1,333 @@
+# Notes
+
+## Eslint
+
+[accessibility package](https://www.npmjs.com/package/eslint-plugin-jsx-a11y)
+
+## SEO
+
+Structured data:
+
+- [Intro to Structured Data](https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data)
+- [Structured Data Search Gallery](https://developers.google.com/search/docs/appearance/structured-data/search-gallery)
+
+- [open graph generator](https://ogimage.click/)
+
+## git
+
+Let me explain the common conventional commit message types. This is based on the Conventional Commits specification, which is widely used in many projects:
+
+1. `feat:` - New features
+
+   - Example: `feat: add user authentication system`
+
+2. `fix:` - Bug fixes
+
+   - Example: `fix: resolve login page crash`
+
+3. `docs:` - Documentation changes
+
+   - Example: `docs: update API documentation`
+
+4. `style:` - Code style changes (formatting, semicolons, etc) that don't affect code logic
+
+   - Example: `style: format using prettier`
+
+5. `refactor:` - Code changes that neither fix a bug nor add a feature
+
+   - Example: `refactor: restructure user service`
+
+6. `perf:` - Performance improvements
+
+   - Example: `perf: optimize image loading`
+
+7. `test:` - Adding or modifying tests
+
+   - Example: `test: add unit tests for user registration`
+
+8. `chore:` - Changes to build process, tools, libraries, etc
+
+   - Example: `chore: update dependencies`
+
+9. `ci:` - Changes to CI configuration files and scripts
+
+   - Example: `ci: add GitHub Actions workflow`
+
+10. `revert:` - Reverting a previous commit
+    - Example: `revert: feat: user authentication system`
+
+Additional conventions:
+
+- You can add a scope in parentheses: `feat(auth): add login page`
+- Add a `!` for breaking changes: `feat!: change API response format`
+- The commit message should be in present tense
+- You can add more details in the commit body after the first line
+
+Example of a complete commit message:
+
+```tsx
+feat(auth): add OAuth2 login support
+
+- Implement Google OAuth2 flow
+- Add user profile sync
+- Update login UI to show OAuth options
+
+BREAKING CHANGE: Previous login tokens are incompatible
+```
+
+These conventions help in:
+
+- Automated changelog generation
+- Determining semantic version bumps automatically
+- Making the commit history more readable and structured
+- Making it easier to find specific types of changes
+
+## css
+
+auto grid
+
+```css
+.products-page-grid {
+  --grid-max-col-count: 3;
+  --grid-min-col-size: 200px;
+  --grid-gap: 1rem;
+
+  /* calculations, do not touch */
+  --grid-col-size-calc: calc(
+    (100% - var(--grid-gap) * var(--grid-max-col-count)) /
+      var(--grid-max-col-count)
+  );
+  --grid-col-min-size-calc: min(
+    100%,
+    max(var(--grid-min-col-size), var(--grid-col-size-calc))
+  );
+
+  display: grid;
+  gap: var(--grid-gap);
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--grid-col-min-size-calc), 1fr)
+  );
+}
+```
+
+stacking contents using grid
+
+```css
+.stacked {
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+
+
+.stacked > * {
+  grid-column: 1/-1;
+  grid-row: 1/-1;
+}
+
+
+
+.stacked > .media {
+  z-index: -1;
+}
+```
+
+gradient underline
+
+```css
+.gradient-underline {
+  --gradient-color-one: #215dee;
+  --gradient-color-two: #b61cff;
+
+  display: inline;
+  background: linear-gradient(
+      to right,
+      #fd3d67 0%,
+      #f59740 33.33%,
+      #ad64f6 66.67%,
+      #ff3b70 100%
+    )
+    no-repeat;
+  background-size: 0 2px;
+  background-position: 0 98%;
+  transition: background-size 0.5s cubic-bezier(0.2, 0.63, 0.36, 1);
+
+  &:hover {
+    background-size: 100% 2px;
+  }
+}
+```
+
+## schema
+
+with id Example
+
+```ts
+type WithProductId<K extends keyof Schema & ArrayObjectKeys<Schema>> =
+  (Schema[K][number] & { product_id: string })[];
+```
+
+string with auto complete:
+latest zod version includes file validation this is for older versions
+
+```ts
+type StringWithAutocompleteOptions<TOptions extends string> =
+  | (string & {})
+  | TOptions;
+```
+
+file schema
+
+```ts
+import { z } from "zod";
+
+const MAX_FILE_SIZE = 1024 * 1024 * 2;
+const ACCEPTED_IMAGE_MIME_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
+export const allowedImageFormats = ["jpeg", "jpg", "png", "webp"];
+
+const imageSchema = z
+  .instanceof(File)
+  .refine((file) => {
+    return !file || file.size <= MAX_FILE_SIZE;
+  }, "Max image size is 2MB.")
+  .refine((file) => {
+    return !!file?.type && ACCEPTED_IMAGE_MIME_TYPES.includes(file?.type);
+  }, "Only .jpg, .jpeg, .png and .webp formats are supported.");
+
+export type ImageSchemaType = z.infer<typeof imageSchema>;
+export default imageSchema;
+```
+
+## npm
+
+version numbers in npm :
+`majorUpdates.minorUpdatesWithBackwardSupport.bugFixesVersion`
+
+like `1.5.11` means:
+
+1.  it is at version 1
+2.  version 1 has 5 minor releases that doesn't break other version like `1.4` `1.3` simply adds some features
+3.  `11` is the number of bugs that developer found and fixed.
+
+```tsx
+npm outdated
+npm i
+npm i --save-dev
+npm i @version            npm i slugify@1.0.0
+npm uninstall
+```
+
+### npm update:
+
+this is the default :
+`"slugify": "^1.0.0"`
+if we update now it will update to the latest version
+we can change the `^` to `~` to only accept minor and patch releases it is safer.
+
+## next js
+
+### how to create a proxy next js 15
+
+There is some un relevant code here, ignore those. we can proxy requests using rewrites.
+
+```ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+  async rewrites() {
+    console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+    return [
+      {
+        source: "/proxy-web",
+        // example with production and dev mode
+        destination:
+          process.env.NODE_ENV === "production"
+            ? "https://gira.ai"
+            : "https://gira.ai",
+      },
+      {
+        // fetch("/backend-api/test") => fetch("https://gira.ai/test")
+        source: "/backend-api/:path*",
+        destination: "https://gira.ai/:path*",
+      },
+    ];
+  },
+};
+
+export default nextConfig;
+```
+
+## perf check
+
+[un lighthouse](https://next.unlighthouse.dev/)
+
+## email gen using react
+
+[email generation template using react](https://react.email/?ref=jonas.io)
+
+## links to check
+
+### Resume Website Inspirations
+
+- [Bahooosh Portfolios](https://bahooosh.com/portfolios)
+- [Let the People Use Their Tools – nmn.sh](https://nmn.sh/blog/2023-10-02-let-the-people-use-their-tools)
+- [Lee Robinson’s Website](https://leerob.com/)
+- [Lee Robinson’s GitHub Site Code](https://github.com/leerob/site)
+- [Magic UI Portfolio Example](https://portfolio-magicui.vercel.app/)
+- [Firebase Auth Middleware – Fireship](https://fireship.io/snippets/express-middleware-auth-token-firebase/)
+- [Max Schmitt’s Website](https://maxschmitt.me/)
+- [React Router Website](https://reactrouter.com/)
+
+### Component Libraries
+
+**Shadcn-related libraries:**
+
+- [shadcn-extension](https://shadcn-extension.vercel.app/)
+- [shadcn-phone-input](https://shadcn-phone-input.vercel.app/)
+- [shadcn-form-build Playground](https://shadcn-form-build.vercel.app/playground)
+- [Aceternity UI](https://ui.aceternity.com/)
+- [MagicUI](https://magicui.design/)
+- [Autosize Textarea – TypeArt](https://shadcnui-expansions.typeart.cc/docs/autosize-textarea)
+- [shadcn-extension Multi-Select Docs](https://shadcn-extension.vercel.app/docs/multi-select)
+- [Enhanced Button](https://enhanced-button.vercel.app/)
+- [Cult UI](https://www.cult-ui.com/)
+- [UI Layout Components](https://www.ui-layout.com/components)
+- [Awesome Shadcn UI](https://awesome-shadcn-ui.vercel.app/)
+- [EldoraUI BentoGrid](https://www.eldoraui.site/components/sections/bentogrid)
+
+**Based on Shadcn but written with Panda CSS:**
+
+- [Shadow Panda](https://shadow-panda.dev/)
+
+**Like to Test:**
+
+- [NextUI User Component](https://nextui.org/docs/components/user)
+- [Motion Primitives](https://motion-primitives.com/)
+- [Origin UI](https://originui.com/)
+
+- [UI Libs Collection](https://21st.dev/q/ecommerce)
+- [DiceUI Kanban Components](https://www.diceui.com/docs/components/kanban)
+
+### Library for Creating Email Templates Using React
+
+- [React Email Templates (ConvertKit)](https://click.convertkit-mail.com/xmuoozo2o7f6hr0qr9es5h03owzll/reh8hoh0nmvv02u2/aHR0cHM6Ly9yZWFjdC5lbWFpbC8_cmVmPWpvbmFzLmlv)
+
+### SEO Performance
+
+- [Next.js Lighthouse – unlighthouse.dev](https://next.unlighthouse.dev/)
+
+## youtube watch list
+
+https://youtu.be/yoiBv0K6_1U?si=hBw2UrO3Z9T288pJ
+https://youtu.be/xyxrB2Aa7KE?si=y7xHzutOYwSwnGVb
+https://youtu.be/b7uUWoS1Zro?si=pHa_iIW-r_2M7cU-

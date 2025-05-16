@@ -2,7 +2,7 @@ import CopyButton from "@/components/blocks/buttons/CopyButton";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import * as React from "react";
-import { ComponentPropsWithoutRef } from "react";
+import { type ComponentPropsWithoutRef } from "react";
 import { codeToHtml } from "shiki";
 
 const components = {
@@ -14,7 +14,7 @@ const components = {
   ),
   h2: (props: ComponentPropsWithoutRef<"h2">) => (
     <h2
-      className="mt-8 mb-6 scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0"
+      className="mt-8 mb-4 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
       {...props}
     />
   ),

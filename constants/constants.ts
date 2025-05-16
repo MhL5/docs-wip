@@ -8,6 +8,7 @@ import {
   Wrench,
   Hammer,
   Settings2,
+  Notebook,
 } from "lucide-react";
 import type { JSX } from "react";
 
@@ -46,6 +47,10 @@ export const snippetsCategoryConfig: Record<
   configs: {
     icon: Settings2,
     tailwindClass: "text-purple-600 dark:text-purple-400",
+  },
+  notes: {
+    icon: Notebook,
+    tailwindClass: "text-zinc-600 dark:text-zinc-400",
   },
 } as const;
 
