@@ -47,6 +47,9 @@ importers:
       framer-motion:
         specifier: ^12.4.7
         version: 12.12.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      ky:
+        specifier: ^1.8.1
+        version: 1.8.1
       lucide-react:
         specifier: ^0.487.0
         version: 0.487.0(react@19.0.0)
@@ -56,6 +59,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      portfolio-wip:
+        specifier: 'link:'
+        version: 'link:'
       react:
         specifier: 19.0.0
         version: 19.0.0
@@ -71,6 +77,9 @@ importers:
       tw-animate-css:
         specifier: ^1.2.5
         version: 1.3.0
+      zod:
+        specifier: ^3.25.57
+        version: 3.25.57
     devDependencies:
       '@types/node':
         specifier: ^22.13.8
@@ -923,6 +932,10 @@ packages:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
 
+  ky@1.8.1:
+    resolution: {integrity: sha512-7Bp3TpsE+L+TARSnnDpk3xg8Idi8RwSLdj6CMbNWoOARIrGrbuLGusV0dYwbZOm4bB3jHNxSw8Wk/ByDqJEnDw==}
+    engines: {node: '>=18'}
+
   lightningcss-darwin-arm64@1.30.1:
     resolution: {integrity: sha512-c8JK7hyE65X1MHMN+Viq9n11RRC7hgin3HhYKhrMyaXflk5GVplZ60IxyoVtzILeKr+xAJwg6zK6sjTBJ0FKYQ==}
     engines: {node: '>= 12.0.0'}
@@ -1322,6 +1335,9 @@ packages:
   yallist@5.0.0:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
     engines: {node: '>=18'}
+
+  zod@3.25.57:
+    resolution: {integrity: sha512-6tgzLuwVST5oLUxXTmBqoinKMd3JeesgbgseXeFasKKj8Q1FCZrHnbqJOyiEvr4cVAlbug+CgIsmJ8cl/pU5FA==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -2069,6 +2085,8 @@ snapshots:
 
   jiti@2.4.2: {}
 
+  ky@1.8.1: {}
+
   lightningcss-darwin-arm64@1.30.1:
     optional: true
 
@@ -2416,5 +2434,7 @@ snapshots:
       vfile-message: 4.0.2
 
   yallist@5.0.0: {}
+
+  zod@3.25.57: {}
 
   zwitch@2.0.4: {}
