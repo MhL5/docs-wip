@@ -20,6 +20,10 @@ export const snippetsLinks: Links[] = [
     "url": "/snippets/components",
     "items": [
       {
+        "title": "horizontalScroll",
+        "url": "/snippets/components/horizontalScroll"
+      },
+      {
         "title": "StructuredDataScript",
         "url": "/snippets/components/StructuredDataScript"
       },
@@ -71,6 +75,10 @@ export const snippetsLinks: Links[] = [
     "title": "types",
     "url": "/snippets/types",
     "items": [
+      {
+        "title": "generics",
+        "url": "/snippets/types/generics"
+      },
       {
         "title": "LaravelPaginatedResourceType",
         "url": "/snippets/types/LaravelPaginatedResourceType"
