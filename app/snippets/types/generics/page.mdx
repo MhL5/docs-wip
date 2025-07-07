@@ -4,3 +4,22 @@ export type RequiredPick<T, key extends keyof T> = Required<Pick<T, key>> & T;
 export type PartialPick<T, key extends keyof T> = Partial<Pick<T, key>> &
   Omit<T, key>;
 ```
+
+exhaustive check, `does react reducer need this? need to check!`
+
+```ts
+type Union = "1" | "2" | 3;
+export function exhaustiveCheck(p: Union) {
+  switch (p) {
+    case "1":
+      return "ok";
+    case "2":
+      return "ok";
+    default:
+      // this would error out if we miss a case
+      // Type '3' is not assignable to type 'never'
+      const exhaustiveChecker: never = p;
+      return exhaustiveChecker;
+  }
+}
+```
